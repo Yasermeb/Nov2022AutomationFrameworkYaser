@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="amazon test">
+    <test name="amazon tests">
+        <classes>
+            <class name="test.TestLogin"></class>
+            <class name="test.TestSearch"></class>
+
+        </classes>
+    </test>
+</suite>
