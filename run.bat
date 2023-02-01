@@ -1,0 +1,2 @@
+cd D:\IdealProjects\Nov2022AutomationFrameworkYaser
+mvn test

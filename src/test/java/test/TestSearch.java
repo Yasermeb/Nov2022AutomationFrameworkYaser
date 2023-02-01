@@ -1,72 +1,71 @@
 package test;
 
 import base.CommonAPI;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.time.Duration;
+import pages.HomePage;
+import utility.ReadFromExcel;
 
 public class TestSearch extends CommonAPI {
 
+    Logger LOG= LogManager.getLogger(TestLogin.class.getName());
+    ReadFromExcel read=new ReadFromExcel("D:\\IdealProjects\\Nov2022AutomationFrameworkYaser\\data\\Classeur1.xlsx","test data");
+
     @Test
-    public void test1() throws InterruptedException {
+    public void searchJavaBook() throws InterruptedException {
+        HomePage homePage=new HomePage(driver);
 
-        //Let's get rid of using driver.
-        type("#twotabsearchtextbox","java book");
-        //driv.findElement(By.id("twotabsearchtextbox")).sendKeys("java book"); //catch the element and enter text on it using By class and its static method like id, name...
-        System.out.println("-----------------text sent success");
+        String expectedTitle=read.getCellValueForGivenHeaderAndKey("key","home page title");
+//      String expectedTitle = "Amazon.com. Spend less. Smile more."; //copy from the inspect page and search for title
+        String actualTitle = getCurrentTitle();
+        Assert.assertEquals(expectedTitle, actualTitle);
+        LOG.info("land to Amazon webpage succeed");
 
-        clickOn("#nav-search-submit-button");
-        //driv.findElement(By.cssSelector("#nav-search-submit-button")).click();
-        System.out.println("-----------------click search success");
+        homePage.typeItemToSearch("java book");
+        homePage.clickOnSearchButton();
 
-        String expectedTitle2 ="Amazon.fr : java book";
+
+        String expectedTitle2 =read.getCellValueForGivenHeaderAndKey("key","java search title");
         String actualTitle2=getCurrentTitle();
-        //String actualTitle2=driv.getTitle();
         Assert.assertEquals(expectedTitle2,actualTitle2);
-        System.out.println("------------Java search title validation success-----------");
+        LOG.info("Java search title validation success");
     }
 
     @Test
-    public void test2() throws InterruptedException {
-        type("#twotabsearchtextbox","selenium book" );
-        //driv.findElement(By.cssSelector("#twotabsearchtextbox")).sendKeys("selenium book");
-        System.out.println("-----------------text sent success");
+    public void searchSeleniumBook() throws InterruptedException {
+        HomePage homePage=new HomePage(driver);  //We cannot make it global
 
-        clickOn("#nav-search-submit-button");
-        //driv.findElement(By.cssSelector("#nav-search-submit-button")).click();
-        System.out.println("-----------------click search success");
+        String expectedHomePageTitle = read.getCellValueForGivenHeaderAndKey("key","home page title");
+        String actualHomePageTitle = getCurrentTitle();
+        Assert.assertEquals(expectedHomePageTitle, actualHomePageTitle);
+        LOG.info("land to Amazon webpage succeed");
 
-        String expectedTitle ="Amazon.fr : selenium book";
-        String actualTitle=getCurrentTitle();
-        //String actualTitle2=driv.getTitle();
-        Assert.assertEquals(expectedTitle,actualTitle);
-        System.out.println("-----------------selenium Search title validation success");
+        homePage.typeItemToSearch("selenium book");
+        homePage.clickOnSearchButton();
+
+        String expectedSearchPageTitle =read.getCellValueForGivenHeaderAndKey("key","selenium search title");
+        String actualSearchPageTitle=getCurrentTitle();
+        Assert.assertEquals(expectedSearchPageTitle,actualSearchPageTitle);
+        LOG.info("selenium Search title validation success");
     }
     @Test
-    public void test3(){
-        selectOptionFromDropdown("#searchDropdownBox","Alexa Skills");
-//        WebElement dropdown = driv.findElement(By.cssSelector("#searchDropdownBox")); //WE class from sel
-//        Select select=new Select(dropdown);   //Handling dropdown, the par is the WE that corresponds to dropdown
-//        select.selectByVisibleText("Alexa Skills");
-        System.out.println("********Books option selected from dropdown");
+    public void searchJava(){
+        HomePage homePage=new HomePage(driver);
 
-        typeAndEnter("#twotabsearchtextbox", "java");
-        //driv.findElement(By.id("twotabsearchtextbox")).sendKeys("java", Keys.ENTER); //Use keys enum in sel
-        System.out.println("-----------------text sent succeed");
+        String expectedHomePageTitle = read.getCellValueForGivenHeaderAndKey("key","home page title");
+        String actualHomePageTitle = getCurrentTitle();
+        Assert.assertEquals(expectedHomePageTitle, actualHomePageTitle);
+        LOG.info("land to Amazon webpage succeed");
 
-        String expectedTitle2 ="Amazon.fr : java";
-        String actualTitle2=driv.getTitle();
-        //String actualTitle2=driv.getTitle();
-        Assert.assertEquals(expectedTitle2,actualTitle2);
-        System.out.println("-----------------dropdown java title validation success");
+        homePage.selectOptionFromMenuDropdown("Books");
+        homePage.searchItem("java");
+
+        String expectedSearchPageTitle2 =read.getCellValueForGivenHeaderAndKey("key","java book search title");
+        String actualSearchPageTitle2=driver.getTitle();
+        Assert.assertEquals(expectedSearchPageTitle2,actualSearchPageTitle2);
+        LOG.info("dropdown java title validation success");
     }
+
 }

@@ -1,0 +1,26 @@
+locator:
+
+id
+name
+className
+tagName
+linkText
+partialLinkText
+
+cssSelector
+tag[attribute='value']
+tag[attribute*='partial-value']
+#id
+.className (in case class with multiple word: .word1.word2.word3)
+tag[attribute='value'] tag::nth-child(index)
+
+xpath
+//tag[@attribute='value']
+//tag[contains(@attribute,'partial-value')]
+//tag[@attribute='value']/tag[index]/tag[index]/tag[index]/tag[index]
+//tag[@attribute='value']/../../../..
+//tag[@attribute='value']/following-sibling::tag
+//tag[@attribute='value']/preceding-sibling::tag
+//tag[text()='value']
+
+NB: you replace the tag name by a * in cssSelector and xpath
